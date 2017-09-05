@@ -1,0 +1,1458 @@
+//////////////////////////////////////////----DECLARACION VARIABLES 
+int pantalla = 0;
+int y;
+float xv;
+int yv;
+
+////-------------------------------D. PERSONAJES
+Personaje fuego;
+Personaje luna;
+Personaje humo;
+Personaje estrella;
+Personaje agua;
+Personaje meteoro;
+Personaje j1;
+Personaje j2;
+Personaje win;
+//----------------------------------D. PANTALLA
+int inicio;
+int instrucciones;
+int menu;
+int menu2;
+int batalla;
+int conclusion;
+float particulas;
+
+//---------------------------------D. IMAGENES MENU
+
+PGraphics p1;
+PGraphics p2;
+PGraphics p3;
+PGraphics p4;
+PGraphics p5;
+PGraphics p6;
+
+///-------------------------------D. BATALLA
+int jugador1;
+int jugador2;
+int turno = 0;
+int l = 100;
+
+////--------------------------------D. PARTICULA
+float[] h = new float[900];
+float[] v = new float[600];
+float[]dh = new float[900];
+float[]dv = new float[600];
+
+
+//////////////////////////////////////////&/////////////////////--------INICIO(SETUP)
+void setup(){
+  size(900,600);
+  background(0);
+  
+//------------------------------------IMAGENES PERSONAJES
+p1=createGraphics(120,120);
+p2=createGraphics(120,120);
+p3=createGraphics(120,120);
+p4=createGraphics(120,120);
+p5=createGraphics(120,120);
+p6=createGraphics(120,120);
+  
+///---------------------------------CLASE PERSONAJES
+    
+    luna = new Personaje("Luna",l,20,0,1);
+    fuego = new Personaje("Fuego Pemex",l,18,1,2);
+    humo = new Personaje("Contamincacion",l,15,2,2);
+    estrella = new Personaje("Estrella Amarilla",l,17,3,1);
+    agua = new Personaje("Agua Mala",l,12,4,2);
+    meteoro= new Personaje("Meteorito",l,13,5,1);
+
+/////------------------------------PARTICULA
+  for (int i=0; i<150; i++){
+    h[i] = random(900);
+    v[i] = random(600);
+    dh[i] = random(-1,1);
+    dv[i] = random(-1,1);
+  }
+}
+
+/////////////////////////////////////////////////////////////////////////////////-------------- DRAW
+
+void draw(){
+////////////--------------------------------------------------------PANTALLAS
+switch(pantalla){
+  ////////////////////////////-------------------------------PANTALLA INICIO
+  case 0:
+    background(25,35,130);
+    textSize(65);
+     fill(random(205,255),random(195,255),0);
+     text("Estrellas",180, 180);
+     textSize(50);
+     fill(180,0,0);
+     text("VS",400,260);
+     textSize(65);
+     fill(random(120,160),random(110,160),random(120,160));
+     text("Contaminación", 320,350);
+     fill(0,100);
+     noStroke();
+     rect(268,467,338,45);
+     textSize(30);
+     fill(255,255,255);
+     text("CLICK para Continuar", 280,500);
+     
+    
+    if(mousePressed){   
+       pantalla = 1;
+    }    
+  break;
+  
+  //////////////////////////////////-----------------------------PANTALLA INSTRUCCIONES
+  case 1:
+   background(0);
+    textSize(40);
+      fill(random(200,255));
+      text("INSTRUCCIONES",285,75);
+      
+      textSize(25);
+      fill(255);
+      text("En una ciudad llena de contaminación, todos los dias las estrellas",50,150);
+      textSize(25);
+      fill(255);
+      text("luchan para aparecer en el cielo nocturno",205,180);
+      textSize(25);
+      fill(255);
+      text("¿Cual sera el pronostico de hoy?",245,210);
+      
+    //--------------------------JUGADOR 1
+    textSize(30);
+      fill(230,0,0);
+      text("JUGADOR 1",180,300);
+    textSize(25);
+      fill(255);
+      text("Ataque  --------- A", 120,400);
+    
+    //-------------------------JUGADOR 2
+    textSize(30);
+      fill(225,215,0);
+      text("JUGADOR 2",550,300);
+      textSize(25);
+      fill(255);
+      text("Ataque  --------- K", 500,400);
+
+    //--------------------------CONTINUAR
+    textSize(30);
+      fill(255);
+      text("Presiona ENTER para continuar",225,520);
+      
+   
+    if(keyPressed){ 
+      if(key == ENTER)
+     pantalla = 2;
+  }
+  break;
+  
+//////////////////////////////////////////////////////---------------------PANTALLA MENU
+  case 2:
+    background (20,0,153,100);
+    noStroke();
+     for(int i = 0; i < 600 ; i++){
+      if (h[i]>900 ){
+        dh[i] *= -1;
+        }
+      if (h[i]<0 ){
+        dh[i] *= -1;
+        }
+      if (v[i]>600){
+        dv[i] *= -1;
+        }
+      if (v[i]<0 ){
+        dv[i] *= -1;
+        }
+    fill(255,255,60);
+    h[i] += dh [i];
+    v[i] += dv [i];
+    ellipse(h[i],v[i],10,10);
+    }
+    textSize(40);
+      fill(0,100);
+    rect(185,35,540,50);
+      fill(255);
+      text("SELECCIONAR PERSONAJES",200,75);
+    textSize(30);
+      fill(230,0,0);   
+      text("JUGADOR 1",365,120);
+    
+  //-----------------------------------------------------------------P. LUNA MENU
+  p1.beginDraw();
+    p1.beginDraw();
+    p1.background(0,100);
+    p1.scale(1.1);
+    p1.fill(0); //-----------------Contorno negro
+    p1.rect(30,0,40,10);
+    p1.rect(20,10,10,10);
+    p1.rect(30,20,10,10);
+    p1.rect(40,30,10,30);
+    p1.rect(30,60,10,10);
+    p1.rect(10,70,20,10);
+    p1.rect(0,80,10,10);
+    p1.rect(10,90,10,10);
+    p1.rect(20,100,40,10);
+    p1.rect(60,90,20,10);
+    p1.rect(80,70,10,20);
+    p1.rect(90,30,10,40);
+    p1.rect(80,20,10,10);
+    p1.rect(70,10,10,10);
+  
+    p1.fill(165,182,198); //---------Azul 
+    p1.noStroke();
+    p1.rect(30,10,40,10);
+    p1.rect(40,20,40,10);
+    p1.rect(50,30,40,10);
+    p1.rect(50,40,40,10);
+    p1.rect(50,50,40,10);
+    p1.rect(40,60,50,10);
+    p1.rect(30,70,50,10);
+    p1.rect(10,80,70,10);
+    p1.rect(20,90,40,10);
+    p1.endDraw();
+  image(p1,110,145);
+  
+   textSize(35);
+  fill(random(255), random(255),0);   
+  text("Luna",130,295);
+  textSize(23);
+  fill(255);   
+  text("Presiona 'Q'",105,320);
+  
+
+  //------------------------------------------------------------------P. FUEGO MENU
+  
+  p2.beginDraw();
+  p2.background(0,100);
+  p2.scale(1.3,1.1);
+  p2.fill(0); //-------------------Contorno 
+  p2.rect(0,50,10,40);
+  p2.rect(10,90,20,10);
+  p2.rect(30,100,30,10);
+  p2.rect(60,90,20,10);
+  p2.rect(80,50,10,40);
+  p2.rect(10,30,10,20);
+  p2.rect(20,20,10,10);
+  p2.rect(30,10,10,10);
+  p2.rect(40,0,10,10);
+  p2.rect(50,10,10,10);
+  p2.rect(60,20,10,10);
+  p2.rect(70,30,10,20);
+ 
+  p2.fill(140,13,13); //------------Rojo
+  p2.noStroke();
+  p2.rect(30,90,30,10);
+  p2.rect(20,80,50,10);
+  p2.rect(20,70,50,10);
+  p2.rect(30,60,30,10);
+  p2.rect(30,50,30,10);
+  p2.rect(40,40,10,10);
+ 
+  p2.fill(255,244,44); //------------>Amarillo
+  p2.noStroke();
+  p2.rect(10,80,10,10);
+  p2.rect(70,80,10,10);
+  p2.rect(10,70,10,10);
+  p2.rect(70,70,10,10);
+  p2.rect(10,60,20,10);
+  p2.rect(60,60,20,10);
+  p2.rect(10,50,20,10);
+  p2.rect(60,50,20,10);
+  p2.rect(20,40,20,10);
+  p2.rect(50,40,20,10);
+  p2.rect(20,30,50,10);
+  p2.rect(30,20,30,10);
+  p2.rect(40,10,10,10);
+  p2.endDraw();
+  image(p2,385,145);
+  
+  textSize(35);
+  fill(random(255), random(255),0);   
+  text("Fuego Pemex",335,295);
+  textSize(23);
+  fill(255);   
+  text("Presiona 'W'",385,320);
+  //----------------------------------------------------------------------P. HUMO MENU
+  
+  p3.beginDraw();
+  p3.background(0,100);
+  p3.scale(1.1);
+  p3.fill(224,224,224);  //------------------Relleno gris
+  p3.rect(0,70,10,10);
+  p3.rect(20,40,10,20);
+  p3.rect(30,0,10,10);
+  p3.rect(30,30,10,40);
+  p3.rect(30,100,10,10);
+  p3.rect(40,20,10,10);
+  p3.rect(40,40,10,50);
+  p3.rect(50,10,10,40);
+  p3.rect(50,60,10,40);
+  p3.rect(60,10,10,20);
+  p3.rect(60,40,10,60);
+  p3.rect(70,10,10,60);
+  p3.rect(70,80,10,10);
+  p3.rect(80,30,10,50);
+  p3.rect(90,40,10,10);
+  p3.rect(90,60,10,10);
+  p3.rect(100,20,10,10);
+  p3.rect(100,90,10,10);
+  p3.noStroke();
+  p3.endDraw();
+  image(p3,660,145);
+  
+  textSize(35);
+  fill(random(255), random(255),0);   
+  text("Humo",670,295);
+  textSize(23);
+  fill(255);   
+  text("Presiona 'E'",660,320);
+  
+  //---------------------------------------------------------------P. ESTRELLA MENU
+  
+  p4.beginDraw();
+    p4.background(0,100);
+    p4.scale(1.4,0.9);
+  p4.fill(0); //------------------------- Contorno Negro
+    p4.noStroke();
+    p4.rect(20,30,10,20);
+    p4.rect(10,50,10,10);
+    p4.rect(0,60,10,10);
+    p4.rect(10,70,10,10);
+    p4.rect(20,80,10,20);
+    p4.rect(30,100,10,20);
+    p4.rect(40,80,10,20);
+    p4.rect(50,70,10,10);
+    p4.rect(60,60,10,10);
+    p4.rect(50,50,10,10);
+    p4.rect(40,30,10,20);
+    p4.rect(30,10,10,20);
+  
+  p4.fill(255,255,0); //-----------------Relleno Amarillo
+    p4.noStroke();
+    p4.rect(30,30,10,70);
+    p4.rect(20,50,10,30);
+    p4.rect(10,60,10,10);
+    p4.rect(40,50,10,30);
+    p4.rect(50,60,10,10);
+    p4.endDraw();
+  image(p4,110,345);
+  
+  textSize(35);
+  fill(random(255), random(255),0);   
+  text("Estrella",108,495);
+  textSize(23);
+  fill(255);   
+  text("Presiona 'R'",110,520);
+  
+  
+  //--------------------------------------------------------------P. AGUA MALA MENU
+  p5.beginDraw();
+  p5.background(0,100);
+  p5.scale(1.3,1.1);
+  p5.fill(0); //-----------------Contorno negro
+    p5.rect(0,50,10,40);
+    p5.rect(10,90,20,10);
+    p5.rect(30,100,30,10);
+    p5.rect(60,90,20,10);
+    p5.rect(80,50,10,40);
+    p5.rect(10,30,10,20);
+    p5.rect(20,20,10,10);
+    p5.rect(30,10,10,10);
+    p5.rect(40,0,10,10);
+    p5.rect(50,10,10,10);
+    p5.rect(60,20,10,10);
+    p5.rect(70,30,10,20);
+  p5.fill(168,186,0); //--------->Relleno Verde
+    p5.noStroke();
+    p5.rect(30,90,30,10);
+    p5.rect(20,80,50,10);
+    p5.rect(20,70,50,10);
+    p5.rect(30,60,30,10);
+    p5.rect(30,50,30,10);
+    p5.rect(40,40,10,10);
+    p5.rect(10,80,10,10);
+    p5.rect(70,80,10,10);
+    p5.rect(10,70,10,10);
+    p5.rect(70,70,10,10);
+    p5.rect(10,60,20,10);
+    p5.rect(60,60,20,10);
+    p5.rect(10,50,20,10);
+    p5.rect(60,50,20,10);
+    p5.rect(20,40,20,10);
+    p5.rect(50,40,20,10);
+    p5.rect(20,30,50,10);
+    p5.rect(30,20,30,10);
+    p5.rect(40,10,10,10);
+ p5.fill(212,232,0); //-----------Destellos verde 
+    p5.rect(50,40,10,10);
+    p5.rect(60,50,10,20);
+    p5.noStroke();
+  p5.endDraw();
+  image(p5,385,345);
+  
+  textSize(35);
+  fill(random(255), random(255),0);   
+  text("Agua Mala",360,495);
+  textSize(23);
+  fill(255);   
+  text("Presiona 'T'",385,520);
+
+  //---------------------------------------------------------------P. METEORO MENU
+  p6.beginDraw();
+  p6.background(0,100);
+  p6.scale(1.1);
+  p6.fill(0); //------------------- Contorno Negro 
+  p6.rect(20,30,10,40);
+  p6.rect(30,20,10,10);
+  p6.rect(30,70,10,10);
+  p6.rect(40,10,10,10);
+  p6.rect(40,80,10,10);
+  p6.rect(50,10,10,10);
+  p6.rect(50,80,10,10);
+  p6.rect(60,10,10,10);
+  p6.rect(60,80,10,10);
+  p6.rect(70,10,10,10);
+  p6.rect(70,80,10,10);
+  p6.rect(80,20,10,20);
+  p6.rect(80,70,10,10);
+  p6.rect(90,40,10,30);
+  
+  p6.fill(115,58,0);  //------------------Relleno cafe
+  p6.rect(30,30,10,40);
+  p6.rect(40,20,10,10);
+  p6.rect(40,40,10,40);
+  p6.rect(50,20,10,40);
+  p6.rect(50,60,10,20);
+  p6.rect(60,30,10,50);
+  p6.rect(70,20,10,60);
+  p6.rect(80,40,10,30);
+  p6.rect(90,0,10,10);
+  p6.rect(100,20,10,10);
+  p6.noStroke();
+    
+  p6.fill(50,25,0);//---------------------------crateres cafe
+  p6.rect(40,30,10,10);
+  p6.rect(50,50,10,10);
+  p6.rect(60,20,10,10);
+  p6.endDraw();
+  image(p6,660,345);
+  
+  textSize(35);
+  fill(random(255), random(255),0);   
+  text("Meteoro",650,495);
+  textSize(23);
+  fill(255);   
+  text("Presiona 'Y'",660,520);
+  
+  /////--------------------------------------------------CONDICIONALES SELECCION
+
+    if(keyPressed){
+      if(key == 'Q' || key == 'q'){
+      j1 = luna;
+      jugador1 = 0;
+      pantalla = 3;
+      }
+    }
+    
+    if(keyPressed){
+      if(key == 'W' || key == 'w'){
+      j1 = fuego;
+      jugador1 = 1;
+      pantalla = 3;
+      }
+    }
+    
+    if(keyPressed){
+      if(key == 'E' || key == 'e'){
+      j1 = humo;
+      jugador1 = 2;
+      pantalla = 3;
+      }
+    }
+    
+    if(keyPressed){
+      if(key == 'R' || key == 'r'){
+      j1 = estrella;
+      jugador1 = 3;
+      pantalla = 3;
+      }
+    }
+    
+    if(keyPressed){
+      if(key == 'T' || key == 't'){
+      j1 = agua;
+      jugador1 = 4;
+      pantalla = 3;
+      }
+    }
+    
+    if(keyPressed){
+      if(key == 'Y' || key == 'y'){
+      j1 = meteoro;
+      jugador1 = 5;
+      pantalla = 3;
+      }
+    }         
+ 
+    break;
+  
+///////////////////////////////////////////-------------------------------PANTALLA MENU 2
+  case 3:
+  background (20,0,153,100);
+    noStroke();
+     for(int i = 0; i < 600 ; i++){
+      if (h[i]>900 ){
+        dh[i] *= -1;
+        }
+      if (h[i]<0 ){
+        dh[i] *= -1;
+        }
+      if (v[i]>600){
+        dv[i] *= -1;
+        }
+      if (v[i]<0 ){
+        dv[i] *= -1;
+        }
+    fill(255,255,60);
+    h[i] += dh [i];
+    v[i] += dv [i];
+    ellipse(h[i],v[i],10,10);
+    }
+    textSize(40);
+      fill(0,100);
+    rect(185,35,540,50);
+      fill(255);
+      text("SELECCIONAR PERSONAJES",200,75);
+    textSize(30);
+      fill(225,215,0);   
+      text("JUGADOR 2",365,120);
+    
+  //------------------------------------------------P. LUNA MENU
+  p1.beginDraw();
+    p1.beginDraw();
+    p1.background(0,100);
+    p1.scale(1.1);
+    p1.fill(0); //-----------------Contorno negro
+    p1.rect(30,0,40,10);
+    p1.rect(20,10,10,10);
+    p1.rect(30,20,10,10);
+    p1.rect(40,30,10,30);
+    p1.rect(30,60,10,10);
+    p1.rect(10,70,20,10);
+    p1.rect(0,80,10,10);
+    p1.rect(10,90,10,10);
+    p1.rect(20,100,40,10);
+    p1.rect(60,90,20,10);
+    p1.rect(80,70,10,20);
+    p1.rect(90,30,10,40);
+    p1.rect(80,20,10,10);
+    p1.rect(70,10,10,10);
+  
+    p1.fill(165,182,198); //---------Azul 
+    p1.noStroke();
+    p1.rect(30,10,40,10);
+    p1.rect(40,20,40,10);
+    p1.rect(50,30,40,10);
+    p1.rect(50,40,40,10);
+    p1.rect(50,50,40,10);
+    p1.rect(40,60,50,10);
+    p1.rect(30,70,50,10);
+    p1.rect(10,80,70,10);
+    p1.rect(20,90,40,10);
+    p1.endDraw();
+  image(p1,110,145);
+  
+   textSize(35);
+  fill(random(255), random(255),0);   
+  text("Luna",130,295);
+  textSize(23);
+  fill(255);   
+  text("Presiona 'Z'",105,320);
+
+  ////---------------------------------P. FUEGO MENU
+  
+  p2.beginDraw();
+  p2.background(0,100);
+  p2.scale(1.3,1.1);
+  p2.fill(0); //-------------------Contorno 
+  p2.rect(0,50,10,40);
+  p2.rect(10,90,20,10);
+  p2.rect(30,100,30,10);
+  p2.rect(60,90,20,10);
+  p2.rect(80,50,10,40);
+  p2.rect(10,30,10,20);
+  p2.rect(20,20,10,10);
+  p2.rect(30,10,10,10);
+  p2.rect(40,0,10,10);
+  p2.rect(50,10,10,10);
+  p2.rect(60,20,10,10);
+  p2.rect(70,30,10,20);
+ 
+  p2.fill(140,13,13); //------------Rojo
+  p2.noStroke();
+  p2.rect(30,90,30,10);
+  p2.rect(20,80,50,10);
+  p2.rect(20,70,50,10);
+  p2.rect(30,60,30,10);
+  p2.rect(30,50,30,10);
+  p2.rect(40,40,10,10);
+ 
+  p2.fill(255,244,44); //------------>Amarillo
+  p2.noStroke();
+  p2.rect(10,80,10,10);
+  p2.rect(70,80,10,10);
+  p2.rect(10,70,10,10);
+  p2.rect(70,70,10,10);
+  p2.rect(10,60,20,10);
+  p2.rect(60,60,20,10);
+  p2.rect(10,50,20,10);
+  p2.rect(60,50,20,10);
+  p2.rect(20,40,20,10);
+  p2.rect(50,40,20,10);
+  p2.rect(20,30,50,10);
+  p2.rect(30,20,30,10);
+  p2.rect(40,10,10,10);
+  p2.endDraw();
+  image(p2,385,145);
+  
+  textSize(35);
+  fill(random(255), random(255),0);   
+  text("Fuego Pemex",335,295);
+  textSize(23);
+  fill(255);   
+  text("Presiona 'X'",385,320);
+  //------------------------------P. HUMO MENU
+  
+  p3.beginDraw();
+  p3.background(0,100);
+  p3.scale(1.1);
+  p3.fill(224,224,224);  //------------------Relleno gris
+  p3.rect(0,70,10,10);
+  p3.rect(20,40,10,20);
+  p3.rect(30,0,10,10);
+  p3.rect(30,30,10,40);
+  p3.rect(30,100,10,10);
+  p3.rect(40,20,10,10);
+  p3.rect(40,40,10,50);
+  p3.rect(50,10,10,40);
+  p3.rect(50,60,10,40);
+  p3.rect(60,10,10,20);
+  p3.rect(60,40,10,60);
+  p3.rect(70,10,10,60);
+  p3.rect(70,80,10,10);
+  p3.rect(80,30,10,50);
+  p3.rect(90,40,10,10);
+  p3.rect(90,60,10,10);
+  p3.rect(100,20,10,10);
+  p3.rect(100,90,10,10);
+  p3.noStroke();
+  p3.endDraw();
+  image(p3,660,145);
+  
+  textSize(35);
+  fill(random(255), random(255),0);   
+  text("Humo",670,295);
+  textSize(23);
+  fill(255);   
+  text("Presiona 'C'",660,320);
+  
+  //---------------------------------------P. ESTRELLA MENU
+  
+  p4.beginDraw();
+  p4.background(0,100);
+  p4.scale(1.4,0.9);
+  p4.fill(0);
+  p4.noStroke();
+  p4.rect(20,30,10,20);
+  p4.rect(10,50,10,10);
+  p4.rect(0,60,10,10);
+  p4.rect(10,70,10,10);
+  p4.rect(20,80,10,20);
+  p4.rect(30,100,10,20);
+  p4.rect(40,80,10,20);
+  p4.rect(50,70,10,10);
+  p4.rect(60,60,10,10);
+  p4.rect(50,50,10,10);
+  p4.rect(40,30,10,20);
+  p4.rect(30,10,10,20);
+  
+  p4.fill(255,255,0);
+  p4.noStroke();
+  p4.rect(30,30,10,70);
+  p4.rect(20,50,10,30);
+  p4.rect(10,60,10,10);
+  p4.rect(40,50,10,30);
+  p4.rect(50,60,10,10);
+  p4.endDraw();
+  image(p4,110,345);
+  
+  textSize(35);
+  fill(random(255), random(255),0);   
+  text("Estrella",108,495);
+  textSize(23);
+  fill(255);   
+  text("Presiona 'V'",110,520);
+  
+  
+  //---------------------------------------P. AGUA MALA MENU
+  p5.beginDraw();
+  p5.background(0,100);
+  p5.scale(1.3,1.1);
+  p5.fill(0); //-----------------Contorno negro
+    p5.rect(0,50,10,40);
+    p5.rect(10,90,20,10);
+    p5.rect(30,100,30,10);
+    p5.rect(60,90,20,10);
+    p5.rect(80,50,10,40);
+    p5.rect(10,30,10,20);
+    p5.rect(20,20,10,10);
+    p5.rect(30,10,10,10);
+    p5.rect(40,0,10,10);
+    p5.rect(50,10,10,10);
+    p5.rect(60,20,10,10);
+    p5.rect(70,30,10,20);
+  p5.fill(168,186,0); //--------->Relleno Verde
+    p5.noStroke();
+    p5.rect(30,90,30,10);
+    p5.rect(20,80,50,10);
+    p5.rect(20,70,50,10);
+    p5.rect(30,60,30,10);
+    p5.rect(30,50,30,10);
+    p5.rect(40,40,10,10);
+    p5.rect(10,80,10,10);
+    p5.rect(70,80,10,10);
+    p5.rect(10,70,10,10);
+    p5.rect(70,70,10,10);
+    p5.rect(10,60,20,10);
+    p5.rect(60,60,20,10);
+    p5.rect(10,50,20,10);
+    p5.rect(60,50,20,10);
+    p5.rect(20,40,20,10);
+    p5.rect(50,40,20,10);
+    p5.rect(20,30,50,10);
+    p5.rect(30,20,30,10);
+    p5.rect(40,10,10,10);
+ p5.fill(212,232,0); //-----------Destellos verde 
+    p5.rect(50,40,10,10);
+    p5.rect(60,50,10,20);
+    p5.noStroke();
+  p5.endDraw();
+  image(p5,385,345);
+  
+  textSize(35);
+  fill(random(255), random(255),0);   
+  text("Agua Mala",360,495);
+  textSize(23);
+  fill(255);   
+  text("Presiona 'B'",385,520);
+
+  //---------------------------------------P. METEORO MENU
+  p6.beginDraw();
+  p6.background(0,100);
+  p6.scale(1.1);
+  p6.fill(0); //------------------- Contorno Negro 
+  p6.rect(20,30,10,40);
+  p6.rect(30,20,10,10);
+  p6.rect(30,70,10,10);
+  p6.rect(40,10,10,10);
+  p6.rect(40,80,10,10);
+  p6.rect(50,10,10,10);
+  p6.rect(50,80,10,10);
+  p6.rect(60,10,10,10);
+  p6.rect(60,80,10,10);
+  p6.rect(70,10,10,10);
+  p6.rect(70,80,10,10);
+  p6.rect(80,20,10,20);
+  p6.rect(80,70,10,10);
+  p6.rect(90,40,10,30);
+  
+  p6.fill(115,58,0);  //------------------Relleno cafe 
+  p6.rect(30,30,10,40);
+  p6.rect(40,20,10,10);
+  p6.rect(40,40,10,40);
+  p6.rect(50,20,10,40);
+  p6.rect(50,60,10,20);
+  p6.rect(60,30,10,50);
+  p6.rect(70,20,10,60);
+  p6.rect(80,40,10,30);
+  p6.rect(90,0,10,10);
+  p6.rect(100,20,10,10);
+  p6.noStroke();
+    
+  p6.fill(50,25,0);//---------------------------crateres cafe
+  p6.rect(40,30,10,10);
+  p6.rect(50,50,10,10);
+  p6.rect(60,20,10,10);
+  p6.endDraw();
+  image(p6,660,345);
+  
+  textSize(35);
+  fill(random(255), random(255),0);   
+  text("Meteoro",650,495);
+  textSize(23);
+  fill(255);   
+  text("Presiona 'N'",660,520);
+    
+  //-----------------------------------------------------CONDICIONALES SELECCION 2
+  
+  if(keyPressed){
+      if(key == 'Z' || key == 'z'){
+      j2 = luna;
+      jugador2 = 0;
+      pantalla = 4;
+      }
+    }
+    
+    if(keyPressed){
+      if(key == 'X' || key == 'x'){
+      j2 = fuego;
+      jugador2 = 1;
+      pantalla = 4;
+      }
+    }
+    
+    if(keyPressed){
+      if(key == 'C' || key == 'c'){
+      j2 = humo;
+      jugador2 = 2;
+      pantalla = 4;
+      }
+    }
+    
+    if(keyPressed){
+      if(key == 'V' || key == 'v'){
+      j2 = estrella;
+      jugador2 = 3;
+      pantalla = 4;
+      }
+    }
+    
+    if(keyPressed){
+      if(key == 'B' || key == 'b'){
+      j2 = agua;
+      jugador2 = 4;
+      pantalla = 4;
+      }
+    }
+    
+    if(keyPressed){
+      if(key == 'N' || key == 'n'){
+      j2 = meteoro;
+      jugador2 = 5;
+      pantalla = 4;
+      }
+    }
+  
+  break;
+  
+///////////////////////////////////////-----------------------------PANTALLA BATALLA
+  case 4:
+  background (230,185,60);
+  fill(240,235,70);
+  ellipse(450,500,180,150);
+  fill(160,150,130);
+  rect(0,475,900,475);
+   textSize(25);
+  fill(0);   
+  text("Jugador 1",70,95);
+   textSize(25);
+  fill(0);   
+  text("Jugador 2",720,95);
+  
+  
+  ///////////--------------------------------------------Colocacion Jugador 1
+  if(jugador1 == 0){
+    pushMatrix();
+    translate(100,320);
+    scale(1.3);
+    luna.Colocar();
+    popMatrix();
+    
+    pushMatrix();
+    translate(-70,-10);
+    luna.barra1();
+    popMatrix();
+   
+  }
+  if(jugador1 == 1){
+    pushMatrix();
+    translate(100,320);
+    scale(1.3);
+    fuego.Colocar();
+    popMatrix();
+    
+    pushMatrix();
+    translate(-75,-10);
+    fuego.barra1();
+    popMatrix();
+  
+    
+  }
+  if(jugador1 == 2){
+    pushMatrix();
+    translate(100,320);
+    scale(1.3);
+    humo.Colocar();
+    popMatrix();
+    
+    pushMatrix();
+    translate(-75,-10);
+    humo.barra1();
+    popMatrix();
+    
+  }
+  if(jugador1 == 3){
+    pushMatrix();
+    translate(100,320);
+    scale(1.3);
+    estrella.Colocar();
+    popMatrix();
+    
+    pushMatrix();
+    translate(-75,-10);
+    estrella.barra1();
+    popMatrix();
+  
+    
+  }
+  if(jugador1 == 4){
+    pushMatrix();
+    translate(100,320);
+    scale(1.3);
+    agua.Colocar();
+    popMatrix();
+    
+    pushMatrix();
+    translate(-75,-10);
+    agua.barra1();
+    popMatrix();
+  
+    
+  }
+  if(jugador1 == 5){
+    pushMatrix();
+    translate(100,320);
+    scale(1.3);
+    meteoro.Colocar();
+    popMatrix();
+    
+    pushMatrix();
+    translate(-75,-10);
+    meteoro.barra1();
+    popMatrix();
+   
+  }
+  /////////////-----------------------------------------COLOCACION Jugador 2
+  
+  if(jugador2 == 0){
+    pushMatrix();
+    translate(645,320);
+    scale(1.3);
+    luna.Colocar();
+    popMatrix();
+        
+    pushMatrix();
+    translate(470,-10);
+    luna.barra2();
+    popMatrix();
+    
+    
+  }
+  if(jugador2 == 1){
+    pushMatrix();
+    translate(645,320);
+    scale(1.3);
+    fuego.Colocar();
+    popMatrix();
+    
+    pushMatrix();
+    translate(470,-10);
+    fuego.barra2();
+    popMatrix();
+  
+  }
+  if(jugador2 == 2){
+    pushMatrix();
+    translate(645,320);
+    scale(1.3);
+    humo.Colocar();
+    popMatrix();
+    
+    pushMatrix();
+    translate(470,-10);
+    humo.barra2();
+    popMatrix();
+ 
+  }
+  if(jugador2 == 3){
+    pushMatrix();
+    translate(645,320);
+    scale(1.3);
+    estrella.Colocar();
+    popMatrix();
+    
+    pushMatrix();
+    translate(470,-10);
+    estrella.barra2();
+    popMatrix();
+  
+  }
+  if(jugador2 == 4){
+    pushMatrix();
+    translate(645,320);
+    scale(1.3);
+    agua.Colocar();
+    popMatrix();
+    
+    pushMatrix();
+    translate(470,-10);
+    agua.barra2();
+    popMatrix();
+    
+  }
+  if(jugador2 == 5){
+    pushMatrix();
+    translate(645,320);
+    scale(1.3);
+    meteoro.Colocar();
+    popMatrix();
+    
+    pushMatrix();
+    translate(470,-10);
+    meteoro.barra2();
+    popMatrix();
+    
+  }
+  
+  if(turno == 0){
+  j1.pelea1();
+  }
+  else{
+    j2.pelea2();
+  }
+  /////-------------------------------------------------------------------
+    
+  break; 
+  
+  ///-----------------------------------------------PANTALLA CONCLUSION
+  case 5:
+  j1.fin();
+  j2.fin();
+  
+  if(keyPressed){
+    if(key == BACKSPACE){
+    pantalla = 0;
+    j1.vida= 100;
+    j2.vida= 100;
+    }
+  }
+  
+  fill(255);
+  textSize(30);
+  text("Presiona BACKSPACE para reiniciar",205,500);
+  
+  
+    /*if(win == 1){
+    background(0,0,112);
+    noStroke();
+     for(int i = 0; i < 50 ; i++){
+      if (h[i]>900 ){
+        dh[i] *= -1;
+        }
+      if (h[i]<0 ){
+        dh[i] *= -1;
+        }
+      if (v[i]>600){
+        dv[i] *= -1;
+        }
+      if (v[i]<0 ){
+        dv[i] *= -1;
+        }
+    fill(255,255,60);
+    h[i] += dh [i];
+    v[i] += dv [i];
+    ellipse(h[i],v[i],20,20);
+    }
+    fill(255,100);
+    rect(220,195,455,70);
+    textSize(65);
+    fill(0);
+    text("PRONOSTICO",240,255);
+     textSize(55);
+    fill(random(210,255),random(210,255),random(0));
+    text("Noche Estrellada",230,355);
+    
+  }
+  if(cielo == 2){
+    background (128,128,128);
+    noStroke();
+     for(int i = 0; i < 50 ; i++){
+      if (h[i]>900 ){
+        dh[i] *= -1;
+        }
+      if (h[i]<0 ){
+        dh[i] *= -1;
+        }
+      if (v[i]>600){
+        dv[i] *= -1;
+        }
+      if (v[i]<0 ){
+        dv[i] *= -1;
+        }
+    fill(64,64,64);
+    h[i] += dh [i];
+    v[i] += dv [i];
+    ellipse(h[i],v[i],20,20);
+    }
+    fill(255,100);
+    rect(220,195,455,70);
+    textSize(65);
+    fill(0);
+    text("PRONOSTICO",240,255);
+     textSize(55);
+    fill(random(100,153),0,0);
+    text("Muerte Instantanea",185,355);
+  }*/
+  
+  break;
+  
+}
+}
+////////////////////////////////////////------------CLASS.ATRIBUTOS
+
+class Personaje{
+  String nombre;
+  int vida;
+  int golpe;
+  int dibujo;
+  int cielo;
+  
+  Personaje(String nombre_, int vida_, int golpe_, int dibujo_, int cielo_)
+  {
+    nombre = nombre_;
+    vida = vida_;
+    golpe = golpe_;
+    dibujo = dibujo_;
+    cielo = cielo_;
+  }
+
+////////////////////////////////////////////////////--------------PERSONAJES BATALLA
+void Colocar(){
+ switch(dibujo){
+   //////////////////////////--------------------------------P. LUNA BATALLA
+  case 0: 
+   fill(0); //-------------------Contorno negro
+    rect(30,0,40,10);
+    rect(20,10,10,10);
+    rect(30,20,10,10);
+    rect(40,30,10,30);
+    rect(30,60,10,10);
+    rect(10,70,20,10);
+    rect(0,80,10,10);
+    rect(10,90,10,10);
+    rect(20,100,40,10);
+    rect(60,90,20,10);
+    rect(80,70,10,20);
+    rect(90,30,10,40);
+    rect(80,20,10,10);
+    rect(70,10,10,10);
+  fill(165,182,198); //----------->Azul Luna
+    noStroke();
+    rect(30,10,40,10);
+    rect(40,20,40,10);
+    rect(50,30,40,10);
+    rect(50,40,40,10);
+    rect(50,50,40,10);
+    rect(40,60,50,10);
+    rect(30,70,50,10);
+    rect(10,80,70,10);
+    rect(20,90,40,10);
+  break; 
+////////////////////////////----------------------------------------PERSONAJE FUEGO BATALLA 
+  case 1:
+   fill(0); //-----------------Contorno negro
+    rect(0,50,10,40);
+    rect(10,90,20,10);
+    rect(30,100,30,10);
+    rect(60,90,20,10);
+    rect(80,50,10,40);
+    rect(10,30,10,20);
+    rect(20,20,10,10);
+    rect(30,10,10,10);
+    rect(40,0,10,10);
+    rect(50,10,10,10);
+    rect(60,20,10,10);
+    rect(70,30,10,20);
+  fill(140,13,13); //--------->RojoFuego
+    noStroke();
+    rect(30,90,30,10);
+    rect(20,80,50,10);
+    rect(20,70,50,10);
+    rect(30,60,30,10);
+    rect(30,50,30,10);
+    rect(40,40,10,10);
+  fill(255,244,44); //------------>Amarillo Fuego
+    noStroke();
+    rect(10,80,10,10);
+    rect(70,80,10,10);
+    rect(10,70,10,10);
+    rect(70,70,10,10);
+    rect(10,60,20,10);
+    rect(60,60,20,10);
+    rect(10,50,20,10);
+    rect(60,50,20,10);
+    rect(20,40,20,10);
+    rect(50,40,20,10);
+    rect(20,30,50,10);
+    rect(30,20,30,10);
+    rect(40,10,10,10);
+  break;
+//////////////////////////////////////////////////------------PERSONAJE HUMO BATALLA
+  case 2:
+  fill(224,224,224);  //------------------Relleno gris
+    rect(0,70,10,10);
+    rect(20,40,10,20);
+    rect(30,0,10,10);
+    rect(30,30,10,40);
+    rect(30,100,10,10);
+    rect(40,20,10,10);
+    rect(40,40,10,50);
+    rect(50,10,10,40);
+    rect(50,60,10,40);
+    rect(60,10,10,20);
+    rect(60,40,10,60);
+    rect(70,10,10,60);
+    rect(70,80,10,10);
+    rect(80,30,10,50);
+    rect(90,40,10,10);
+    rect(90,60,10,10);
+    rect(100,20,10,10);
+    rect(100,90,10,10);
+  noStroke();
+  break;
+///////////////////////////////////////////////////////------------PERSONAJE ESTRELLA BATALLA
+  case 3:
+  fill(0); //---------------------- Contorno Negro
+  noStroke();
+  rect(20,30,10,20);
+  rect(10,50,10,10);
+  rect(0,60,10,10);
+  rect(10,70,10,10);
+  rect(20,80,10,20);
+  rect(30,100,10,20);
+  rect(40,80,10,20);
+  rect(50,70,10,10);
+  rect(60,60,10,10);
+  rect(50,50,10,10);
+  rect(40,30,10,20);
+  rect(30,10,10,20);
+  
+  fill(255,255,0); //----------------- Relleno Amarillo
+  noStroke();
+  rect(30,30,10,70);
+  rect(20,50,10,30);
+  rect(10,60,10,10);
+  rect(40,50,10,30);
+  rect(50,60,10,10); 
+  break;  
+  
+///////////////////////////////////////////////-------------------PERSONAJE AGUA MALA BATALLA
+case 4:
+fill(0); //-----------------Contorno negro
+    rect(0,50,10,40);
+    rect(10,90,20,10);
+    rect(30,100,30,10);
+    rect(60,90,20,10);
+    rect(80,50,10,40);
+    rect(10,30,10,20);
+    rect(20,20,10,10);
+    rect(30,10,10,10);
+    rect(40,0,10,10);
+    rect(50,10,10,10);
+    rect(60,20,10,10);
+    rect(70,30,10,20);
+  fill(168,186,0); //--------->Relleno Verde
+    noStroke();
+    rect(30,90,30,10);
+    rect(20,80,50,10);
+    rect(20,70,50,10);
+    rect(30,60,30,10);
+    rect(30,50,30,10);
+    rect(40,40,10,10);
+    rect(10,80,10,10);
+    rect(70,80,10,10);
+    rect(10,70,10,10);
+    rect(70,70,10,10);
+    rect(10,60,20,10);
+    rect(60,60,20,10);
+    rect(10,50,20,10);
+    rect(60,50,20,10);
+    rect(20,40,20,10);
+    rect(50,40,20,10);
+    rect(20,30,50,10);
+    rect(30,20,30,10);
+    rect(40,10,10,10);
+ fill(212,232,0); //-----------Destellos verde 
+    rect(50,40,10,10);
+    rect(60,50,10,20);
+    noStroke();
+  break;  
+/////////////////////////////////////////---------------PERSONAJE METEORO BATALLA
+case 5:
+fill(0); //------------------- Contorno Negro 
+  rect(20,30,10,40);
+  rect(30,20,10,10);
+  rect(30,70,10,10);
+  rect(40,10,10,10);
+  rect(40,80,10,10);
+  rect(50,10,10,10);
+  rect(50,80,10,10);
+  rect(60,10,10,10);
+  rect(60,80,10,10);
+  rect(70,10,10,10);
+  rect(70,80,10,10);
+  rect(80,20,10,20);
+  rect(80,70,10,10);
+  rect(90,40,10,30);
+  
+  fill(115,58,0);  //------------------Relleno cafe
+    
+    rect(30,30,10,40);
+    rect(40,20,10,10);
+    rect(40,40,10,40);
+    rect(50,20,10,40);
+    rect(50,60,10,20);
+    rect(60,30,10,50);
+    rect(70,20,10,60);
+    rect(80,40,10,30);
+    rect(90,0,10,10);
+    rect(100,20,10,10);
+    noStroke();
+    
+    fill(50,25,0);//---------------------------crateres cafe
+    rect(40,30,10,10);
+    rect(50,50,10,10);
+    rect(60,20,10,10);
+  break;  
+ }
+}
+////////////////////////////////////////////-------------------------BATALLA BARRA DE VIDA
+void barra2(){
+  pushMatrix();
+  scale (2.5);
+  fill(0,204,0);
+  rect(50,20,xv,10);
+   xv = j1.vida;
+popMatrix();
+}
+
+void barra1(){
+  pushMatrix();
+  scale (2.5);
+  fill(0,204,0);
+  rect(50,20,xv,10);
+   xv = j2.vida;
+popMatrix();
+}
+
+
+/////////////////////////////////////////////-------------------------P. Funcion final
+void fin(){
+if(cielo == 2){
+    background(0,0,112);
+    noStroke();
+     for(int i = 0; i < 50 ; i++){
+      if (h[i]>900 ){
+        dh[i] *= -1;
+        }
+      if (h[i]<0 ){
+        dh[i] *= -1;
+        }
+      if (v[i]>600){
+        dv[i] *= -1;
+        }
+      if (v[i]<0 ){
+        dv[i] *= -1;
+        }
+    fill(255,255,60);
+    h[i] += dh [i];
+    v[i] += dv [i];
+    ellipse(h[i],v[i],20,20);
+    }
+    fill(255,100);
+    rect(220,195,455,70);
+    textSize(65);
+    fill(0);
+    text("PRONOSTICO",240,255);
+     textSize(55);
+    fill(random(210,255),random(210,255),random(0));
+    text("Noche Estrellada",230,355);
+}
+
+  else if(cielo == 1){
+    background (128,128,128);
+    noStroke();
+     for(int i = 0; i < 50 ; i++){
+      if (h[i]>900 ){
+        dh[i] *= -1;
+        }
+      if (h[i]<0 ){
+        dh[i] *= -1;
+        }
+      if (v[i]>600){
+        dv[i] *= -1;
+        }
+      if (v[i]<0 ){
+        dv[i] *= -1;
+        }
+    fill(64,64,64);
+    h[i] += dh [i];
+    v[i] += dv [i];
+    ellipse(h[i],v[i],20,20);
+    }
+    fill(255,100);
+    rect(220,195,455,70);
+    textSize(65);
+    fill(0);
+    text("PRONOSTICO",240,255);
+     textSize(55);
+    fill(random(100,153),0,0);
+    text("Muerte Instantanea",185,355);
+  }
+}
+
+
+/////////////////////////////////////////------------------------------------BATALLA TURNOS
+void pelea1(){
+      if(keyPressed){
+       if(key == 'a'){
+        j2.vida = j2.vida - j1.golpe;
+        //if(j2.vida <= 0){
+        turno= 1;
+        }
+       }
+        if(j2.vida <= 0){
+        pantalla = 5;
+        win = j1;
+      }
+       }
+      
+void pelea2(){      
+      if(keyPressed){
+      if (key == 'k' ){
+        j1.vida = j1.vida - j2.golpe;
+        //if( j1.vida <= 0){
+        turno = 0;
+        }
+      }
+        if( j1.vida <= 0){
+        pantalla = 5;}
+        win = j2;
+      }
+   }
+   
